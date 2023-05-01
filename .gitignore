@@ -1,0 +1,5 @@
+.env
+rzp.csv
+/node_modules
+/sheets
+/uploads

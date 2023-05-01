@@ -1,0 +1,101 @@
+<%- include('partials/header') %>
+    <title>add new Item</title>
+
+    </head>
+
+    <body>
+        <%- include('partials/navbar') %>
+
+            <br>
+            <form id="form">
+                Item Id: <br>
+                <input type="text" name="itemId" id="itemId" value="6214aa192e281b6a0b41e4e0"> <br><br>
+        
+                Quantity: <br>
+                <input type="text" name="quantity" id="quantity" value="2"> <br><br>
+                <button type="button" onclick="getOrderId()">Place Order</button>
+        
+                <button id="rzp-button1" type="button" hidden>Pay</button>
+                <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+            </form>
+
+            <!-- <form id="paymentVerificationForm" method="post" action="/verifySignature">
+                <input type="hidden" name="razorpay_payment_id" id="razorpay_payment_id">
+                <input type="hidden" name="razorpay_order_id" id="razorpay_order_id">
+                <input type="hidden" name="razorpay_signature" id="razorpay_signature">
+                <input type="text" name="transactionId" id="transactionId" hidden>
+            </form> -->
+
+            <script>
+                function getOrderId() {
+                    var orderId;
+                    var form = document.getElementById("form");
+                    var data = {
+                        itemId: form.itemId.value,
+                        quantity: form.quantity.value
+                    }
+                    // console.log(data);
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/placeOrder",
+                        data: data,
+                        success: function (result) {
+                            orderId = result.order_id;
+                            // console.log(result);
+                            var options = {
+                                "key": result.rzp_key, 
+                                "amount": result.amount, 
+                                "currency": result.currency,
+                                "name": result.itemName,
+                                "description": "Test Transaction",
+                                "order_id": orderId,
+                                "handler": function (response) {
+                                    // console.log("response:::",response);
+                                    // document.getElementById("razorpay_payment_id").value = response.razorpay_payment_id;
+                                    // document.getElementById("razorpay_order_id").value = response.razorpay_order_id ;
+                                    // document.getElementById("razorpay_signature").value = response.razorpay_signature ; 
+                                    // document.getElementById("transactionId").value = result.transactionId ;                                    
+                                    // console.log("document:: ",document.getElementById("transactionId").value);
+                                    // document.getElementById("paymentVerificationForm").submit();
+                                    // console.log("response::\n",response);
+                                    response.transactionId = result.transactionId;
+                                    response.status = "Success";
+                                    response.amount = result.amount;
+                                    response.itemId = result.itemId;
+                                    response.quantity = data.quantity;
+                                    response.flag = 1
+                                    $.post("/verifySignature", {data:JSON.stringify(response)}, (data) => console.log(data));
+                                    
+
+                                },
+                                "prefill": {
+                                    "name": "AAA",
+                                    "email": "aaa@example.com",
+                                    "contact": "7777777777"
+                                },
+                                "theme": {
+                                    "color": "#3399cc"
+                                }
+                            };
+
+                            var rzp1 = new Razorpay(options);
+                            rzp1.on('payment.failed', function (response) {
+                                response.status = "Failure";
+                                response.amount = result.amount;
+                                $.post("/verifySignature", {data: JSON.stringify(response)} , (data) => console.log(data));
+                            });
+                            document.getElementById('rzp-button1').onclick = function (e) {
+                                rzp1.open();
+                                e.preventDefault();
+                            }
+
+                            document.getElementById("rzp-button1").click();
+                        }
+                    })
+                }
+            </script>
+
+    </body>
+
+    </html>

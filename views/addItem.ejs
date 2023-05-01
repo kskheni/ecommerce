@@ -1,0 +1,47 @@
+<%- include('partials/header') %>
+<title>add new Item</title>
+</head>
+<body>
+<%- include('partials/navbar') %>
+
+    <form name="itemForm" method="post" onsubmit="formdata()">
+        name: <br>
+        <input type="text" name="name" required> <br><br>
+        price: <br>
+        <input type="text" name="price" required> <br><br>
+        Spec: <br>
+        <div id="specs"></div>
+        <button id="addNewSpec" type="button" onclick="addField()">add</button>
+
+        Images: <br>
+        <input type="file" name="file" accept="image/*" multiple>
+        
+        <button type="submit">submit</button>
+    </form>
+
+    <script>
+        function addField(){
+            var new_input="Key: <input type='text' name='specKey'>&nbsp; Value:<input type='text' name='specValue'><br><br>";
+            $('#specs').append(new_input);
+        }
+
+        function formdata(){
+            var form = document.forms["itemForm"];
+
+            var specKey = form.specKey;
+            var specValue = form.specValue;
+    
+            var specObj = {};
+
+            for(let i=0;i<specKey.length;i++){
+                specObj[specKey[i].value] = specValue[i].value;
+            }
+            console.log(specObj);
+            
+        
+
+        }
+    </script>
+
+</body>
+</html>

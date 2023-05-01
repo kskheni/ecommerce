@@ -1,0 +1,56 @@
+<%- include('partials/header') %>
+<title>Home</title>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+    <br>
+    
+    <table style="border:1px solid black">
+        <tr>
+            <td style="border:1px solid black">type</td>
+            <td style="border:1px solid black">discount</td>
+            <td style="border:1px solid black">coupon code</td>
+            <td style="border:1px solid black">items</td>
+            <td style="border:1px solid black">minimum spend</td>
+            <td style="border:1px solid black">description</td>
+            <td style="border:1px solid black">expires at</td>
+            <td style="border:1px solid black">maximum Quantity</td>
+            <td style="border:1px solid black">Price</td>
+
+        </tr>
+        
+        <% for(let combo of combos){ 
+            let flag=1; %>
+            <% for(let coupon of combo.coupon){ %>
+                <tr>
+                    <td style="border:1px solid black"><%= coupon.type %></td>
+                    <td style="border:1px solid black">
+                        <%= coupon.discount%>
+                        <% if(coupon.type == "Percentage"){%>
+                        %
+                        <% }else{ %>Rs <% } %>
+                        </td>
+                    <td style="border:1px solid black"><%= coupon.couponCode %></td>
+                    <td style="border:1px solid black">
+                    <% for(let item of coupon.itemId){ %>
+                    <a href="item/<%= item %>">item</a>
+                    <% } %>
+                    </td>   
+                    <td style="border:1px solid black"><%= coupon.minSpend %></td>
+                    <td style="border:1px solid black"><%if(coupon.description){%> <%= coupon.description %> <%} else{%> - <%}%></td>
+                    <td style="border:1px solid black"><%= coupon.expiresAt %></td>
+                    <td style="border:1px solid black"><%if(coupon.maxQuantity){%> <%=coupon.maxQuantity%> <%} else{%> - <%}%></td>
+
+                    <% if(flag){%>
+                    <td style="border:1px solid black" rowspan="<%=combo.coupon.length %>" > <%= combo.price %></td>
+                    <% flag=0; } %>
+            <% } %>
+                    </tr>
+                    <tr><td colspan="9" align="center">-</td></tr>
+
+        <%}%>
+
+        
+    </table>
+</body>
+</html>

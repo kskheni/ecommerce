@@ -1,0 +1,22 @@
+<%- include('partials/header') %>
+<title>Item</title>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+    <strong>name:</strong> <%= item.name %> <br><br>
+    <strong>vendor name:</strong> <%= item.vendorName %> <br> <br>
+    <strong>price:</strong> <%= item.price %> <br> <br>
+    <strong>specifications:</strong> <br> <br>
+    <% for(let spec of item.spec){ %>
+        <%= spec.specKey %>: <%= spec.specValue %> <br>
+    <% } %>
+    <br>
+    <strong>Images:</strong> <br> <br>
+    <% for(let image of item.images){ %>
+        <img src="/<%= image.name %>" alt="no image" height="100px"><br><br>
+    <% } %>
+    
+
+
+</body>
+</html>

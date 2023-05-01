@@ -1,0 +1,22 @@
+    <%- include('partials/header') %>
+    <title>Home</title>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+
+    <table style="border: 1px solid black;">
+        <tr>
+            <th style="border:1px solid black">item name</td>
+            <th style="border:1px solid black">price</td>
+        </tr>
+        <% for(let item of items){ %>
+            <tr>
+                <td style="border:1px solid black"><a href="/item/<%= item._id %>"> <%= item.name %> </a></td>
+                <td style="border:1px solid black"><%= item.price %></td>
+            </tr>
+        <% } %>
+
+    </table>
+
+</body>
+</html>

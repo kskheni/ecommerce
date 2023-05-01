@@ -1,0 +1,33 @@
+<%- include('partials/header') %>
+<title>Sign Up</title>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+
+    <form action="/signup" method="post">
+        Username:
+        <input type="text" name="username" required> <br> <br>
+        Role:
+        <select name="role" required>
+            <option value="VENDOR">Vendor</option>
+            <option value="USER">User</option>
+        </select> <br> <br>
+        Name:
+        <input type="text" name="name" required> <br> <br>
+        Password:
+        <input type="password" name="password" required> <br> <br>
+        Address:
+        <input type="text" name="address"> <br> <br>
+        Contact Number:
+        <input type="number" name="contactNumber"> <br> <br>
+        GST number:
+        <input type="text" name="GSTNum"> <br> <br>
+
+        <button type="submit">Register</button>
+
+    </form>
+
+
+</body>
+
+</html>
